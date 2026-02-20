@@ -72,7 +72,7 @@
 
   /* ═══ LEFT PANEL ═══ */
   .info-panel {
-    width: 280px; flex-shrink: 0;
+    width: 336px; flex-shrink: 0;
     border-right: 1px solid var(--border-dim);
     background: var(--bg-panel);
     display: flex; flex-direction: column;
@@ -80,71 +80,71 @@
   }
   .info-panel::-webkit-scrollbar { display: none; }
 
-  .agency-brand { padding: 20px; border-bottom: 1px solid var(--border-dim); }
+  .agency-brand { padding: 24px; border-bottom: 1px solid var(--border-dim); }
 
   .agency-logo-area { height: 44px; display: flex; align-items: center; margin-bottom: 10px; }
   .agency-logo-text {
     font-family: 'Press Start 2P', monospace;
-    font-size: clamp(12px, 1.6vw, 16px);
+    font-size: clamp(14px, 1.9vw, 19px);
     letter-spacing: 2px; text-transform: uppercase;
   }
 
   .agency-class-badge {
-    display: inline-block; padding: 3px 8px;
-    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    display: inline-block; padding: 4px 10px;
+    font-family: 'Press Start 2P', monospace; font-size: 7px;
     letter-spacing: 1px; text-transform: uppercase;
     border: 1px solid; margin-bottom: 8px;
   }
 
-  .agency-tagline { font-family: 'Silkscreen', monospace; font-size: 10px; color: var(--text-primary); line-height: 1.6; letter-spacing: 0.5px; }
-  .agency-desc { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-secondary); line-height: 1.8; margin-top: 8px; }
+  .agency-tagline { font-family: 'Silkscreen', monospace; font-size: 12px; color: var(--text-primary); line-height: 1.6; letter-spacing: 0.5px; }
+  .agency-desc { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-secondary); line-height: 1.8; margin-top: 10px; }
 
   /* Stats */
-  .tcg-stats { padding: 14px 20px; border-bottom: 1px solid var(--border-dim); }
+  .tcg-stats { padding: 17px 24px; border-bottom: 1px solid var(--border-dim); }
   .section-label {
-    font-family: 'Press Start 2P', monospace; font-size: 6px;
-    color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;
+    font-family: 'Press Start 2P', monospace; font-size: 7px;
+    color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
   }
-  .stat-trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; }
+  .stat-trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 7px; }
   .stat-cell {
     background: var(--bg-card); border: 1px solid var(--border-dim);
-    padding: 10px 8px; text-align: center; position: relative; overflow: hidden;
+    padding: 12px 10px; text-align: center; position: relative; overflow: hidden;
   }
   .stat-cell::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0;
     height: 2px; opacity: 0.6;
   }
   .stat-value {
-    font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 1.8vw, 15px);
-    display: block; margin-bottom: 5px; white-space: nowrap;
+    font-family: 'Press Start 2P', monospace; font-size: clamp(12px, 2.2vw, 18px);
+    display: block; margin-bottom: 6px; white-space: nowrap;
   }
-  .stat-name { font-family: 'Silkscreen', monospace; font-size: 7px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-name { font-family: 'Silkscreen', monospace; font-size: 8px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
 
   /* Abilities */
-  .tcg-abilities { padding: 14px 20px; border-bottom: 1px solid var(--border-dim); }
+  .tcg-abilities { padding: 17px 24px; border-bottom: 1px solid var(--border-dim); }
   .ability-card {
-    display: flex; align-items: flex-start; gap: 10px;
-    padding: 8px; margin-bottom: 5px;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px; margin-bottom: 6px;
     background: var(--bg-card); border: 1px solid var(--border-dim); transition: border-color 0.2s;
   }
   .ability-card:hover { border-color: var(--border-glow); }
   .ability-icon-wrap {
-    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
-    font-size: 14px; flex-shrink: 0; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim);
+    width: 31px; height: 31px; display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim);
   }
   .ability-name {
-    font-family: 'Press Start 2P', monospace; font-size: 6px;
-    color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;
+    font-family: 'Press Start 2P', monospace; font-size: 7px;
+    color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;
     text-shadow: 0 0 6px rgba(255,221,0,0.2);
   }
-  .ability-desc { font-family: 'Silkscreen', monospace; font-size: 8px; color: var(--text-secondary); line-height: 1.5; }
+  .ability-desc { font-family: 'Silkscreen', monospace; font-size: 10px; color: var(--text-secondary); line-height: 1.5; }
 
   /* Clients */
-  .tcg-clients { padding: 14px 20px; }
+  .tcg-clients { padding: 17px 24px; }
   .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
   .client-pill {
     background: var(--bg-card); border: 1px solid var(--border-dim);
-    padding: 7px; font-family: 'Silkscreen', monospace; font-size: 7px;
+    padding: 8px; font-family: 'Silkscreen', monospace; font-size: 8px;
     color: var(--text-secondary); text-align: center; text-transform: uppercase; letter-spacing: 0.5px;
     transition: border-color 0.2s, color 0.2s;
   }
@@ -229,13 +229,13 @@
   .selector-bar {
     position: relative; z-index: 10;
     background: var(--bg-panel); border-top: 1px solid var(--border-dim);
-    padding: 10px 20px; flex-shrink: 0;
+    padding: 12px 24px; flex-shrink: 0;
   }
-  .selector-row { display: flex; gap: 6px; justify-content: center; align-items: stretch; }
+  .selector-row { display: flex; gap: 7px; justify-content: center; align-items: stretch; }
   .sel-card {
-    flex: 1; max-width: 180px; min-width: 100px;
+    flex: 1; max-width: 216px; min-width: 120px;
     background: var(--bg-card); border: 2px solid var(--border-dim);
-    padding: 8px 10px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; cursor: pointer; display: flex; align-items: center; gap: 12px;
     transition: all 0.1s; position: relative; overflow: hidden;
   }
   .sel-card::before {
@@ -248,38 +248,38 @@
   .sel-card.active::before { opacity: 1; }
 
   .sel-face-wrap {
-    width: 40px; height: 40px; flex-shrink: 0;
+    width: 48px; height: 48px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     background: rgba(255,255,255,0.015); border: 1px solid var(--border-dim); overflow: hidden;
   }
-  .sel-face { image-rendering: pixelated; width: 38px; height: 38px; }
+  .sel-face { image-rendering: pixelated; width: 46px; height: 46px; }
   .sel-card.active .sel-face { animation: sel-bounce 0.6s steps(2) infinite; }
   @keyframes sel-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 
   .sel-info { min-width: 0; }
   .sel-name {
-    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    font-family: 'Press Start 2P', monospace; font-size: 7px;
     color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .sel-class {
-    font-family: 'Silkscreen', monospace; font-size: 7px; margin-top: 3px;
+    font-family: 'Silkscreen', monospace; font-size: 8px; margin-top: 4px;
     text-transform: uppercase; letter-spacing: 0.5px;
   }
   .sel-number {
     position: absolute; top: 3px; right: 5px;
-    font-family: 'Press Start 2P', monospace; font-size: 5px; color: var(--text-dim); letter-spacing: 1px;
+    font-family: 'Press Start 2P', monospace; font-size: 6px; color: var(--text-dim); letter-spacing: 1px;
   }
 
-  .key-hints { display: flex; justify-content: center; gap: 20px; margin-top: 6px; }
-  .key-hint { font-family: 'Silkscreen', monospace; font-size: 7px; color: var(--text-dim); letter-spacing: 1px; }
+  .key-hints { display: flex; justify-content: center; gap: 24px; margin-top: 7px; }
+  .key-hint { font-family: 'Silkscreen', monospace; font-size: 8px; color: var(--text-dim); letter-spacing: 1px; }
   .key-hint kbd {
     display: inline-block; background: var(--bg-card); border: 1px solid var(--border-glow);
-    padding: 1px 5px; font-family: 'Press Start 2P', monospace; font-size: 6px;
+    padding: 2px 6px; font-family: 'Press Start 2P', monospace; font-size: 7px;
     color: var(--text-secondary); margin: 0 2px;
   }
 
-  @media (max-width: 960px) { .info-panel { width: 240px; } }
+  @media (max-width: 960px) { .info-panel { width: 288px; } }
   @media (max-width: 768px) {
     .main-stage { flex-direction: column; }
     .info-panel { width: 100%; max-height: 38vh; border-right: none; border-bottom: 1px solid var(--border-dim); }
