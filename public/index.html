@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELECT YOUR AGENCY // ECOSYSTEM</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg-deep: #050508;
+    --bg-panel: #0a0a0f;
+    --bg-card: #0f0f16;
+    --bg-elevated: #14141e;
+    --border-dim: #1a1a28;
+    --border-glow: #2a2a40;
+    --text-primary: #f0f0f5;
+    --text-secondary: #b8b8d0;
+    --text-dim: #7a7a9a;
+    --text-muted: #3e3e58;
+    --yellow: #ffdd00;
+    --scanline: 0.02;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: 'Silkscreen', monospace;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,var(--scanline)) 2px, rgba(0,0,0,var(--scanline)) 4px);
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .pixel-grid {
+    position: fixed; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.006) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.006) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ═══ TOP BAR ═══ */
+  .top-bar {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--border-dim);
+    background: var(--bg-panel);
+    flex-shrink: 0;
+  }
+  .logo-mark { font-family: 'Press Start 2P', monospace; font-size: 7px; color: var(--text-muted); letter-spacing: 2px; }
+  .top-title { font-family: 'Press Start 2P', monospace; font-size: clamp(8px, 1.4vw, 11px); color: var(--text-primary); letter-spacing: 3px; }
+  .top-title .acc { color: var(--yellow); text-shadow: 0 0 12px rgba(255,221,0,0.3); }
+  .top-meta { font-family: 'Press Start 2P', monospace; font-size: 7px; color: var(--text-muted); letter-spacing: 1px; }
+
+  /* ═══ MAIN STAGE ═══ */
+  .main-stage {
+    flex: 1; display: flex; position: relative; z-index: 10; overflow: hidden; min-height: 0;
+  }
+
+  /* ═══ LEFT PANEL ═══ */
+  .info-panel {
+    width: 280px; flex-shrink: 0;
+    border-right: 1px solid var(--border-dim);
+    background: var(--bg-panel);
+    display: flex; flex-direction: column;
+    overflow-y: auto; scrollbar-width: none;
+  }
+  .info-panel::-webkit-scrollbar { display: none; }
+
+  .agency-brand { padding: 20px; border-bottom: 1px solid var(--border-dim); }
+
+  .agency-logo-area { height: 44px; display: flex; align-items: center; margin-bottom: 10px; }
+  .agency-logo-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(12px, 1.6vw, 16px);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  .agency-class-badge {
+    display: inline-block; padding: 3px 8px;
+    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: 1px solid; margin-bottom: 8px;
+  }
+
+  .agency-tagline { font-family: 'Silkscreen', monospace; font-size: 10px; color: var(--text-primary); line-height: 1.6; letter-spacing: 0.5px; }
+  .agency-desc { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-secondary); line-height: 1.8; margin-top: 8px; }
+
+  /* Stats */
+  .tcg-stats { padding: 14px 20px; border-bottom: 1px solid var(--border-dim); }
+  .section-label {
+    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .stat-trio { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; }
+  .stat-cell {
+    background: var(--bg-card); border: 1px solid var(--border-dim);
+    padding: 10px 8px; text-align: center; position: relative; overflow: hidden;
+  }
+  .stat-cell::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; opacity: 0.6;
+  }
+  .stat-value {
+    font-family: 'Press Start 2P', monospace; font-size: clamp(10px, 1.8vw, 15px);
+    display: block; margin-bottom: 5px; white-space: nowrap;
+  }
+  .stat-name { font-family: 'Silkscreen', monospace; font-size: 7px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Abilities */
+  .tcg-abilities { padding: 14px 20px; border-bottom: 1px solid var(--border-dim); }
+  .ability-card {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px; margin-bottom: 5px;
+    background: var(--bg-card); border: 1px solid var(--border-dim); transition: border-color 0.2s;
+  }
+  .ability-card:hover { border-color: var(--border-glow); }
+  .ability-icon-wrap {
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0; background: rgba(255,255,255,0.02); border: 1px solid var(--border-dim);
+  }
+  .ability-name {
+    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;
+    text-shadow: 0 0 6px rgba(255,221,0,0.2);
+  }
+  .ability-desc { font-family: 'Silkscreen', monospace; font-size: 8px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* Clients */
+  .tcg-clients { padding: 14px 20px; }
+  .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .client-pill {
+    background: var(--bg-card); border: 1px solid var(--border-dim);
+    padding: 7px; font-family: 'Silkscreen', monospace; font-size: 7px;
+    color: var(--text-secondary); text-align: center; text-transform: uppercase; letter-spacing: 0.5px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .client-pill:hover { border-color: var(--border-glow); color: var(--text-primary); }
+
+  /* ═══ CENTER STAGE ═══ */
+  .center-stage {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden; min-width: 0;
+  }
+
+  .ambient-glow {
+    position: absolute; width: 500px; height: 500px; border-radius: 50%;
+    filter: blur(140px); opacity: 0.06; transition: background 0.5s; pointer-events: none;
+  }
+  .ambient-glow.top { top: -120px; left: 50%; transform: translateX(-50%); }
+  .ambient-glow.bottom { bottom: -100px; left: 50%; transform: translateX(-50%); }
+
+  .hero-number {
+    position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace; font-size: 56px;
+    color: rgba(255,255,255,0.015); letter-spacing: 10px; pointer-events: none; z-index: 0;
+  }
+
+  .platform-scene { position: relative; display: flex; flex-direction: column; align-items: center; }
+
+  .character-display {
+    position: relative; width: 240px; height: 260px;
+    display: flex; align-items: flex-end; justify-content: center; z-index: 2;
+  }
+
+  .main-sprite {
+    image-rendering: pixelated;
+    height: 240px; width: auto;
+    animation: sprite-float 2s ease-in-out infinite;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.6));
+    transition: filter 0.3s;
+  }
+
+  @keyframes sprite-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Disc platform */
+  .disc-platform { width: 240px; height: 50px; position: relative; margin-top: -8px; z-index: 1; }
+  .disc-top {
+    width: 240px; height: 28px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, transparent 70%);
+    border-radius: 50%; position: relative;
+  }
+  .disc-top::before {
+    content: ''; position: absolute; inset: 4px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .disc-ring {
+    width: 210px; height: 20px; margin: -5px auto 0; border-radius: 50%;
+    border: 2px solid; opacity: 0.4; transition: border-color 0.3s, box-shadow 0.3s;
+    animation: ring-pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes ring-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.55; } }
+  .disc-reflection {
+    width: 160px; height: 10px; margin: 5px auto 0;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.025) 0%, transparent 70%);
+    border-radius: 50%; filter: blur(4px);
+  }
+
+  .hero-name { margin-top: 16px; text-align: center; }
+  .hero-name-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(16px, 2.8vw, 26px);
+    letter-spacing: 5px; text-transform: uppercase;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .hero-class-text {
+    font-family: 'Silkscreen', monospace; font-size: 11px;
+    letter-spacing: 4px; text-transform: uppercase; margin-top: 6px; transition: color 0.3s;
+  }
+
+  /* ═══ BOTTOM SELECTOR ═══ */
+  .selector-bar {
+    position: relative; z-index: 10;
+    background: var(--bg-panel); border-top: 1px solid var(--border-dim);
+    padding: 10px 20px; flex-shrink: 0;
+  }
+  .selector-row { display: flex; gap: 6px; justify-content: center; align-items: stretch; }
+  .sel-card {
+    flex: 1; max-width: 180px; min-width: 100px;
+    background: var(--bg-card); border: 2px solid var(--border-dim);
+    padding: 8px 10px; cursor: pointer; display: flex; align-items: center; gap: 10px;
+    transition: all 0.1s; position: relative; overflow: hidden;
+  }
+  .sel-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--sel-accent); opacity: 0; transition: opacity 0.15s;
+  }
+  .sel-card:hover { border-color: var(--border-glow); background: var(--bg-elevated); }
+  .sel-card:hover::before { opacity: 0.5; }
+  .sel-card.active { border-color: var(--sel-accent); box-shadow: 0 0 16px color-mix(in srgb, var(--sel-accent) 18%, transparent); }
+  .sel-card.active::before { opacity: 1; }
+
+  .sel-face-wrap {
+    width: 40px; height: 40px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.015); border: 1px solid var(--border-dim); overflow: hidden;
+  }
+  .sel-face { image-rendering: pixelated; width: 38px; height: 38px; }
+  .sel-card.active .sel-face { animation: sel-bounce 0.6s steps(2) infinite; }
+  @keyframes sel-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+  .sel-info { min-width: 0; }
+  .sel-name {
+    font-family: 'Press Start 2P', monospace; font-size: 6px;
+    color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sel-class {
+    font-family: 'Silkscreen', monospace; font-size: 7px; margin-top: 3px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .sel-number {
+    position: absolute; top: 3px; right: 5px;
+    font-family: 'Press Start 2P', monospace; font-size: 5px; color: var(--text-dim); letter-spacing: 1px;
+  }
+
+  .key-hints { display: flex; justify-content: center; gap: 20px; margin-top: 6px; }
+  .key-hint { font-family: 'Silkscreen', monospace; font-size: 7px; color: var(--text-dim); letter-spacing: 1px; }
+  .key-hint kbd {
+    display: inline-block; background: var(--bg-card); border: 1px solid var(--border-glow);
+    padding: 1px 5px; font-family: 'Press Start 2P', monospace; font-size: 6px;
+    color: var(--text-secondary); margin: 0 2px;
+  }
+
+  @media (max-width: 960px) { .info-panel { width: 240px; } }
+  @media (max-width: 768px) {
+    .main-stage { flex-direction: column; }
+    .info-panel { width: 100%; max-height: 38vh; border-right: none; border-bottom: 1px solid var(--border-dim); }
+    .center-stage { min-height: 260px; }
+    .sel-card { min-width: 60px; padding: 6px; }
+    .sel-info { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="pixel-grid"></div>
+
+<div class="top-bar">
+  <span class="logo-mark">V1.0</span>
+  <span class="top-title">SELECT YOUR <span class="acc">AGENCY</span></span>
+  <span class="top-meta">NZ // GLOBAL</span>
+</div>
+
+<div class="main-stage">
+  <div class="info-panel" id="infoPanel">
+    <div class="agency-brand" id="brandBlock"></div>
+    <div class="tcg-stats" id="statsBlock"></div>
+    <div class="tcg-abilities" id="abilitiesBlock"></div>
+    <div class="tcg-clients" id="clientsBlock"></div>
+  </div>
+
+  <div class="center-stage" id="centerStage">
+    <div class="ambient-glow top" id="glowTop"></div>
+    <div class="ambient-glow bottom" id="glowBottom"></div>
+    <div class="hero-number" id="heroNumber">01</div>
+    <div class="platform-scene">
+      <div class="character-display">
+        <img class="main-sprite" id="mainSprite" src="" alt="Character" />
+      </div>
+      <div class="disc-platform">
+        <div class="disc-top"></div>
+        <div class="disc-ring" id="discRing"></div>
+        <div class="disc-reflection"></div>
+      </div>
+    </div>
+    <div class="hero-name">
+      <div class="hero-name-text" id="heroName">COMPOUND</div>
+      <div class="hero-class-text" id="heroClass">THE STORYTELLER</div>
+    </div>
+  </div>
+</div>
+
+<div class="selector-bar">
+  <div class="selector-row" id="selectorRow"></div>
+  <div class="key-hints">
+    <span class="key-hint"><kbd>◄</kbd> <kbd>►</kbd> NAVIGATE</span>
+    <span class="key-hint"><kbd>ENTER</kbd> SELECT</span>
+    <span class="key-hint"><kbd>1</kbd>-<kbd>6</kbd> QUICK SELECT</span>
+  </div>
+</div>
+
+<script>
+const agencies = [
+  {
+    id: 'compound', number: '01', name: 'Compound', class: 'The Storyteller',
+    tagline: 'Web3 Content for Founders', accent: '#ff2233',
+    description: 'High-signal content strategies for Web3 founders. We build the content engines that establish thought leaders.',
+    stats: [
+      { name: 'IMPRESSIONS', value: '10M+' },
+      { name: 'FOUNDERS', value: '50+' },
+    ],
+    abilities: [
+      { icon: '⚡', name: 'Thread Storm', desc: 'Viral content cascades that compound reach exponentially over time' },
+      { icon: '🎯', name: 'Founder Voice', desc: 'Authentic tone calibration — sounds like you, not a ghostwriter' },
+      { icon: '🧵', name: 'Narrative Arc', desc: 'Long-form storytelling that builds authority across platforms' },
+    ],
+    clients: ['DeFi Protocol', 'L2 Network', 'NFT Studio', 'DAO Tooling', 'Web3 Fund'],
+    sprite: 'compound'
+  },
+  {
+    id: 'replyguy', number: '02', name: 'Reply Guys', class: 'The Connector',
+    tagline: 'Strategic Replies on X & LinkedIn', accent: '#ffcc00',
+    description: 'Deploying engagement operators across X and LinkedIn, turning conversations into conversions at scale.',
+    stats: [
+      { name: 'REPLIES', value: '10K+' },
+      { name: 'ACCOUNTS', value: '50+' },
+    ],
+    abilities: [
+      { icon: '💬', name: 'Reply Blitz', desc: 'Coordinated engagement across 100+ relevant threads daily' },
+      { icon: '🎯', name: 'Thread Snipe', desc: 'Real-time insertion into trending convos in your niche' },
+      { icon: '🔄', name: 'Network Effect', desc: 'Multi-operator amplification that compounds organic reach' },
+    ],
+    clients: ['SaaS Founder', 'Crypto Exchange', 'AI Startup', 'VC Fund', 'KOL Agency'],
+    sprite: 'replyguy'
+  },
+  {
+    id: 'prospr3', number: '03', name: 'Prospr3', class: 'The Inventor',
+    tagline: 'Innovation Studio for Experiences', accent: '#aa44ff',
+    description: 'Gamified experiences, token-gated campaigns, and experimental activations at the frontier of engagement.',
+    stats: [
+      { name: 'IPs ACTIVATED', value: '10+' },
+      { name: 'USERS', value: '1M+' },
+    ],
+    abilities: [
+      { icon: '🧪', name: 'XP Forge', desc: 'Custom gamification engines — points, quests, leaderboards' },
+      { icon: '🔐', name: 'Token Gate', desc: 'On-chain verification for access control and rewards' },
+      { icon: '🎮', name: 'Mini App Lab', desc: 'Telegram Mini Apps and embedded viral experiences' },
+    ],
+    clients: ['Gaming Guild', 'NFT Marketplace', 'Social Platform', 'Metaverse Co', 'TON Project'],
+    sprite: 'prospr3'
+  },
+  {
+    id: 'dreamy', number: '04', name: 'Dreamy', class: 'The Architect',
+    tagline: 'UI/UX Studio for the Web', accent: '#3388ff',
+    description: 'Conversion-optimized websites and landing pages. Clean, modern, premium — design that drives outcomes.',
+    stats: [
+      { name: 'WEBSITES', value: '100+' },
+      { name: 'DELIVERY', value: '7 DAY' },
+    ],
+    abilities: [
+      { icon: '✨', name: 'Pixel Perfect', desc: 'Obsessive detail in every component, every interaction' },
+      { icon: '🏗️', name: 'Page Forge', desc: 'High-converting landing pages with strategic IA' },
+      { icon: '⚡', name: 'Speed Build', desc: 'Concept to launch in weeks, not months' },
+    ],
+    clients: ['Tech Startup', 'SaaS Platform', 'E-Commerce', 'DeFi App', 'Agency Partner'],
+    sprite: 'dreamy'
+  },
+  {
+    id: 'curator', number: '05', name: 'Curator', class: 'The Strategist',
+    tagline: 'Cinematic Brand Campaigns', accent: '#ff44aa',
+    description: 'Full-service Web2 marketing. Cinematic storytelling meets performance — campaigns that move people and metrics.',
+    stats: [
+      { name: 'CAMPAIGNS', value: '100+' },
+    ],
+    abilities: [
+      { icon: '🎬', name: 'Cinema Mode', desc: 'Broadcast-quality production with digital-native distribution' },
+      { icon: '📈', name: 'Growth Funnel', desc: 'Full-funnel strategy from awareness through conversion' },
+      { icon: '🎯', name: 'Audience Lock', desc: 'Precision targeting that maximizes media spend efficiency' },
+    ],
+    clients: ['Consumer Brand', 'Hospitality', 'Finance Firm', 'Retail Chain', 'NZ SME'],
+    sprite: 'curator'
+  },
+  {
+    id: 'web3clip', number: '06', name: 'Web3Clipping', class: 'The Editor',
+    tagline: '550+ Clippers // 1 Platform', accent: '#00dd66',
+    description: 'The marketplace for Web3 content clipping. 550+ vetted clippers, gamified ranking, and instant scale.',
+    stats: [
+      { name: 'CLIPPERS', value: '550+' },
+    ],
+    abilities: [
+      { icon: '✂️', name: 'Clip Storm', desc: 'One source becomes 20+ viral clips across formats' },
+      { icon: '🏆', name: 'Clipper Score', desc: 'Gamified ranking surfaces the best clippers for your niche' },
+      { icon: '⚡', name: 'Rapid Deploy', desc: '24-48hr turnaround from raw footage to finished clips' },
+    ],
+    clients: ['Podcast Host', 'Conference Org', 'KOL Agency', 'Web3 Protocol', 'Content Creator'],
+    sprite: 'web3clip'
+  }
+];
+
+// ═══════════════════════════════════════
+// HIGH-FIDELITY PIXEL SPRITES (32x48)
+// Human proportions with shading
+// ═══════════════════════════════════════
+
+// Color palette
+const PAL = {
+  // Skin tones
+  s1: '#f5dcc0', s2: '#e8c9a0', s3: '#d4ad78', s4: '#b8915a',
+  // Hair - dark
+  h1: '#2a2020', h2: '#1a1214', h3: '#0e0a08',
+  // Hair - brown
+  hb1: '#6b4830', hb2: '#4d3220', hb3: '#3a2418',
+  // Eyes
+  e1: '#1a1a2e', e2: '#ffffff',
+  // Mouth
+  m1: '#d46060',
+  // Outline
+  o: '#0a0a10',
+  // Red outfit (Compound)
+  r1: '#ee2233', r2: '#cc1a28', r3: '#991520', r4: '#661018',
+  // White shirt
+  w1: '#f0f0f0', w2: '#d8d8d8', w3: '#c0c0c0',
+  // Black suit
+  b1: '#3a3a42', b2: '#2a2a32', b3: '#1a1a22', b4: '#0e0e14',
+  // Yellow outfit (Reply Guys)
+  y1: '#ffdd44', y2: '#eeca22', y3: '#ccaa11', y4: '#aa8800',
+  // Purple outfit (Prospr3)
+  p1: '#bb66ff', p2: '#9944dd', p3: '#7733bb', p4: '#552299',
+  // Blue outfit (Dreamy)
+  bl1: '#5599ff', bl2: '#3377ee', bl3: '#2255cc', bl4: '#1144aa',
+  // Pink outfit (Curator)
+  pk1: '#ff66bb', pk2: '#ee44aa', pk3: '#cc2288', pk4: '#aa1166',
+  // Green outfit (Web3Clipping)
+  g1: '#44ee88', g2: '#22cc66', g3: '#11aa44', g4: '#008833',
+  // Laptop/device
+  d1: '#667788', d2: '#556677', d3: '#445566',
+  // Misc
+  gl: '#aaddff', // glasses/goggles lens
+  t: null, // transparent
+};
+
+function p(c) { return c === null ? null : c; }
+
+// Each sprite is drawn programmatically for proper detail
+function drawCompound(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair
+  rect(11, 0, 10, 2, PAL.h1);
+  rect(10, 1, 12, 2, PAL.h2);
+  rect(9, 2, 14, 2, PAL.h1);
+  rect(10, 3, 12, 1, PAL.h3);
+  // Hair sides
+  rect(9, 4, 2, 4, PAL.h1);
+  rect(21, 4, 2, 4, PAL.h2);
+
+  // Face
+  rect(11, 4, 10, 8, PAL.s1);
+  rect(11, 4, 10, 1, PAL.s2);
+  rect(11, 11, 10, 1, PAL.s3);
+  // Face shading
+  rect(11, 4, 1, 8, PAL.s2);
+  rect(20, 4, 1, 8, PAL.s3);
+
+  // Eyes
+  px(13, 6, PAL.e2); px(14, 6, PAL.e1); px(15, 6, PAL.e1);
+  px(17, 6, PAL.e1); px(18, 6, PAL.e1); px(19, 6, PAL.e2);
+  // Eyebrows
+  rect(13, 5, 3, 1, PAL.h2);
+  rect(17, 5, 3, 1, PAL.h2);
+  // Nose
+  px(16, 8, PAL.s3); px(16, 9, PAL.s4);
+  // Mouth
+  rect(14, 10, 4, 1, PAL.m1);
+
+  // Neck
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // White shirt / tie
+  rect(13, 14, 6, 3, PAL.w1);
+  rect(14, 14, 4, 1, PAL.w2);
+  // Red tie
+  rect(15, 14, 2, 8, PAL.r1);
+  rect(15, 14, 2, 1, PAL.r2);
+
+  // Black suit jacket
+  rect(9, 14, 4, 14, PAL.b2);
+  rect(19, 14, 4, 14, PAL.b2);
+  rect(8, 15, 2, 12, PAL.b3);
+  rect(22, 15, 2, 12, PAL.b3);
+  // Jacket front
+  rect(10, 14, 3, 14, PAL.b1);
+  rect(19, 14, 3, 14, PAL.b1);
+  // Jacket lapels
+  rect(11, 14, 2, 5, PAL.b3);
+  rect(19, 14, 2, 5, PAL.b3);
+
+  // Torso center
+  rect(13, 17, 6, 11, PAL.b2);
+  rect(14, 17, 4, 11, PAL.b1);
+
+  // Arms - right arm forward holding phone/pen
+  rect(7, 16, 2, 10, PAL.b3);
+  rect(6, 17, 2, 8, PAL.b4);
+  // Hand
+  rect(5, 24, 3, 2, PAL.s2);
+  rect(5, 23, 3, 1, PAL.s1);
+  // Pen/stylus in hand
+  rect(5, 20, 1, 4, PAL.w2);
+
+  // Left arm at side
+  rect(23, 16, 2, 10, PAL.b3);
+  rect(24, 17, 2, 8, PAL.b4);
+  rect(24, 25, 2, 2, PAL.s2);
+
+  // Belt
+  rect(10, 28, 12, 1, PAL.b4);
+  px(16, 28, PAL.r2); // belt buckle
+
+  // Pants
+  rect(10, 29, 5, 12, PAL.b3);
+  rect(17, 29, 5, 12, PAL.b3);
+  rect(11, 29, 4, 12, PAL.b2);
+  rect(18, 29, 4, 12, PAL.b2);
+  // Gap between legs
+  rect(15, 33, 2, 8, PAL.o);
+
+  // Shoes
+  rect(9, 41, 6, 3, PAL.b4);
+  rect(17, 41, 6, 3, PAL.b4);
+  rect(9, 43, 7, 1, PAL.o);
+  rect(17, 43, 7, 1, PAL.o);
+  // Shoe shine
+  px(10, 42, PAL.b2);
+  px(18, 42, PAL.b2);
+
+  // Red accent: pocket square
+  rect(11, 16, 2, 2, PAL.r1);
+  px(12, 15, PAL.r2);
+}
+
+function drawReplyGuy(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair - messy/modern
+  rect(10, 0, 12, 2, PAL.hb1);
+  rect(9, 1, 14, 2, PAL.hb2);
+  rect(9, 2, 14, 2, PAL.hb1);
+  rect(10, 3, 12, 1, PAL.hb3);
+  // Spike
+  rect(19, 0, 3, 1, PAL.hb1);
+  rect(9, 3, 2, 4, PAL.hb2);
+  rect(21, 3, 2, 3, PAL.hb1);
+
+  // Face
+  rect(11, 4, 10, 8, PAL.s1);
+  rect(11, 4, 10, 1, PAL.s2);
+  rect(11, 11, 10, 1, PAL.s3);
+  rect(11, 4, 1, 8, PAL.s2);
+  rect(20, 4, 1, 8, PAL.s3);
+
+  // Sunglasses
+  rect(12, 5, 4, 3, PAL.o);
+  rect(17, 5, 4, 3, PAL.o);
+  rect(16, 6, 1, 1, PAL.o); // bridge
+  rect(13, 6, 2, 1, PAL.gl);
+  rect(18, 6, 2, 1, PAL.gl);
+
+  // Smirk
+  rect(14, 10, 3, 1, PAL.m1);
+  px(17, 10, PAL.s3);
+
+  // Neck
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // Yellow hoodie
+  rect(9, 14, 14, 14, PAL.y2);
+  rect(10, 14, 12, 14, PAL.y1);
+  rect(9, 14, 1, 14, PAL.y3);
+  rect(22, 14, 1, 14, PAL.y3);
+  // Hood drawstrings
+  rect(14, 14, 1, 4, PAL.w1);
+  rect(17, 14, 1, 4, PAL.w1);
+  // Kangaroo pocket
+  rect(12, 22, 8, 4, PAL.y3);
+  rect(13, 23, 6, 2, PAL.y4);
+
+  // Arms — both forward holding phones
+  // Left arm
+  rect(7, 16, 2, 8, PAL.y3);
+  rect(6, 17, 2, 7, PAL.y4);
+  rect(5, 22, 3, 2, PAL.s2);
+  // Phone in left hand
+  rect(4, 19, 2, 4, PAL.d2);
+  rect(4, 19, 2, 1, PAL.d1);
+  px(4, 20, PAL.gl); px(5, 20, PAL.gl); // screen glow
+
+  // Right arm
+  rect(23, 16, 2, 8, PAL.y3);
+  rect(24, 17, 2, 7, PAL.y4);
+  rect(25, 22, 3, 2, PAL.s2);
+  // Phone in right hand
+  rect(26, 19, 2, 4, PAL.d2);
+  rect(26, 19, 2, 1, PAL.d1);
+  px(26, 20, PAL.gl); px(27, 20, PAL.gl);
+
+  // Pants — dark jeans
+  rect(10, 28, 12, 1, PAL.b3);
+  rect(10, 29, 5, 12, PAL.b2);
+  rect(17, 29, 5, 12, PAL.b2);
+  rect(11, 29, 4, 12, PAL.b1);
+  rect(18, 29, 4, 12, PAL.b1);
+  rect(15, 33, 2, 8, PAL.o);
+
+  // Sneakers
+  rect(9, 41, 6, 3, PAL.y3);
+  rect(17, 41, 6, 3, PAL.y3);
+  rect(9, 43, 7, 1, PAL.y4);
+  rect(17, 43, 7, 1, PAL.y4);
+  px(10, 41, PAL.w1); px(18, 41, PAL.w1); // shoe detail
+}
+
+function drawProspr3(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair — wild/spiky (inventor type)
+  rect(10, 1, 12, 2, PAL.h1);
+  rect(9, 2, 14, 2, PAL.h2);
+  rect(10, 3, 12, 1, PAL.h3);
+  // Spikes
+  rect(8, 0, 3, 2, PAL.h1);
+  rect(20, 0, 4, 2, PAL.h1);
+  rect(12, 0, 2, 1, PAL.h2);
+  rect(17, 0, 2, 1, PAL.h2);
+  rect(9, 3, 2, 4, PAL.h1);
+  rect(21, 3, 2, 3, PAL.h2);
+
+  // Face
+  rect(11, 4, 10, 8, PAL.s1);
+  rect(11, 11, 10, 1, PAL.s3);
+  rect(11, 4, 1, 8, PAL.s2);
+  rect(20, 4, 1, 8, PAL.s3);
+
+  // Goggles on forehead
+  rect(11, 3, 10, 2, PAL.d2);
+  rect(12, 3, 3, 2, PAL.gl);
+  rect(17, 3, 3, 2, PAL.gl);
+
+  // Eyes
+  px(13, 6, PAL.e2); px(14, 6, PAL.e1); px(15, 6, PAL.e1);
+  px(17, 6, PAL.e1); px(18, 6, PAL.e1); px(19, 6, PAL.e2);
+  rect(13, 5, 3, 1, PAL.h2);
+  rect(17, 5, 3, 1, PAL.h2);
+  // Excited grin
+  rect(13, 10, 6, 1, PAL.m1);
+  px(16, 9, PAL.s3);
+
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // Purple lab coat
+  rect(9, 14, 14, 16, PAL.p2);
+  rect(10, 14, 12, 16, PAL.p1);
+  rect(9, 14, 1, 16, PAL.p3);
+  rect(22, 14, 1, 16, PAL.p3);
+  // Coat flap
+  rect(15, 14, 2, 16, PAL.p3);
+  // Pockets
+  rect(11, 20, 3, 3, PAL.p3);
+  rect(18, 20, 3, 3, PAL.p3);
+  // Inner shirt
+  rect(13, 14, 6, 3, PAL.w1);
+
+  // Right arm — holding up a glowing flask
+  rect(7, 15, 2, 6, PAL.p3);
+  rect(6, 15, 2, 5, PAL.p4);
+  rect(6, 20, 2, 2, PAL.s2);
+  // Flask
+  rect(5, 12, 4, 3, PAL.gl);
+  rect(6, 11, 2, 1, PAL.d1);
+  rect(6, 15, 2, 1, PAL.d2);
+  // Glow
+  px(4, 12, '#dd88ff'); px(9, 12, '#dd88ff');
+  px(5, 11, '#dd88ff'); px(8, 11, '#dd88ff');
+
+  // Left arm
+  rect(23, 16, 2, 8, PAL.p3);
+  rect(24, 17, 2, 7, PAL.p4);
+  rect(25, 24, 2, 2, PAL.s2);
+
+  // Pants
+  rect(10, 30, 5, 11, PAL.b2);
+  rect(17, 30, 5, 11, PAL.b2);
+  rect(11, 30, 4, 11, PAL.b1);
+  rect(18, 30, 4, 11, PAL.b1);
+  rect(15, 34, 2, 7, PAL.o);
+
+  // Boots
+  rect(9, 41, 6, 3, PAL.p4);
+  rect(17, 41, 6, 3, PAL.p4);
+  rect(9, 43, 7, 1, PAL.o);
+  rect(17, 43, 7, 1, PAL.o);
+}
+
+function drawDreamy(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair — neat, professional
+  rect(11, 0, 10, 2, PAL.h1);
+  rect(10, 1, 12, 2, PAL.h2);
+  rect(9, 2, 14, 3, PAL.h1);
+  rect(10, 4, 12, 1, PAL.h3);
+  rect(9, 4, 2, 3, PAL.h2);
+  rect(21, 4, 2, 2, PAL.h1);
+
+  // Face
+  rect(11, 5, 10, 7, PAL.s1);
+  rect(11, 11, 10, 1, PAL.s3);
+  rect(11, 5, 1, 7, PAL.s2);
+  rect(20, 5, 1, 7, PAL.s3);
+
+  // Glasses — thin frames
+  rect(12, 7, 4, 2, PAL.o);
+  rect(17, 7, 4, 2, PAL.o);
+  rect(16, 7, 1, 1, PAL.o);
+  rect(13, 7, 2, 1, PAL.gl);
+  rect(18, 7, 2, 1, PAL.gl);
+  px(13, 6, PAL.h2); px(14, 6, PAL.h2); px(15, 6, PAL.h2);
+  px(17, 6, PAL.h2); px(18, 6, PAL.h2); px(19, 6, PAL.h2);
+
+  px(16, 9, PAL.s3);
+  rect(14, 10, 4, 1, PAL.m1);
+
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // Blue turtleneck
+  rect(12, 13, 8, 2, PAL.bl2);
+  rect(9, 14, 14, 14, PAL.bl2);
+  rect(10, 14, 12, 14, PAL.bl1);
+  rect(9, 14, 1, 14, PAL.bl3);
+  rect(22, 14, 1, 14, PAL.bl3);
+
+  // Arms — holding laptop open
+  rect(7, 16, 2, 7, PAL.bl3);
+  rect(6, 17, 2, 6, PAL.bl4);
+  rect(5, 22, 3, 2, PAL.s2);
+
+  rect(23, 16, 2, 7, PAL.bl3);
+  rect(24, 17, 2, 6, PAL.bl4);
+  rect(25, 22, 3, 2, PAL.s2);
+
+  // Laptop
+  rect(5, 24, 22, 2, PAL.d2);
+  rect(6, 24, 20, 1, PAL.d1);
+  // Screen
+  rect(8, 20, 16, 4, PAL.d3);
+  rect(9, 20, 14, 3, PAL.bl4);
+  // Screen glow
+  rect(10, 21, 4, 1, PAL.gl);
+  rect(15, 21, 4, 1, PAL.bl1);
+
+  // Pants — slim chinos
+  rect(10, 28, 12, 1, PAL.b2);
+  rect(10, 29, 5, 12, '#2a3a5a');
+  rect(17, 29, 5, 12, '#2a3a5a');
+  rect(11, 29, 4, 12, '#344466');
+  rect(18, 29, 4, 12, '#344466');
+  rect(15, 33, 2, 8, PAL.o);
+
+  // Clean sneakers
+  rect(9, 41, 6, 3, PAL.w2);
+  rect(17, 41, 6, 3, PAL.w2);
+  rect(9, 43, 7, 1, PAL.w3);
+  rect(17, 43, 7, 1, PAL.w3);
+  px(10, 41, PAL.bl2); px(18, 41, PAL.bl2);
+}
+
+function drawCurator(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair — stylish, side-swept
+  rect(10, 0, 12, 2, PAL.hb1);
+  rect(9, 1, 14, 3, PAL.hb2);
+  rect(8, 2, 4, 3, PAL.hb1); // side sweep
+  rect(10, 3, 12, 1, PAL.hb3);
+  rect(9, 4, 2, 3, PAL.hb1);
+  rect(21, 4, 2, 2, PAL.hb2);
+
+  // Face
+  rect(11, 5, 10, 7, PAL.s1);
+  rect(11, 11, 10, 1, PAL.s3);
+  rect(11, 5, 1, 7, PAL.s2);
+  rect(20, 5, 1, 7, PAL.s3);
+
+  // Eyes
+  px(13, 7, PAL.e2); px(14, 7, PAL.e1); px(15, 7, PAL.e1);
+  px(17, 7, PAL.e1); px(18, 7, PAL.e1); px(19, 7, PAL.e2);
+  px(13, 6, PAL.hb2); px(14, 6, PAL.hb2); px(15, 6, PAL.hb2);
+  px(17, 6, PAL.hb2); px(18, 6, PAL.hb2); px(19, 6, PAL.hb2);
+  px(16, 9, PAL.s3);
+  rect(14, 10, 4, 1, PAL.m1);
+
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // Pink blazer
+  rect(9, 14, 14, 14, PAL.pk2);
+  rect(10, 14, 12, 14, PAL.pk1);
+  rect(9, 14, 1, 14, PAL.pk3);
+  rect(22, 14, 1, 14, PAL.pk3);
+  // Lapels
+  rect(11, 14, 2, 6, PAL.pk3);
+  rect(19, 14, 2, 6, PAL.pk3);
+  // Inner top
+  rect(13, 14, 6, 4, PAL.w1);
+  rect(14, 14, 4, 1, PAL.w2);
+
+  // Scarf / detail
+  rect(13, 14, 1, 6, PAL.pk4);
+  rect(18, 14, 1, 6, PAL.pk4);
+
+  // Right arm — holding clapperboard up
+  rect(7, 14, 2, 6, PAL.pk3);
+  rect(6, 14, 2, 5, PAL.pk4);
+  rect(5, 18, 3, 2, PAL.s2);
+  // Clapperboard
+  rect(2, 10, 7, 5, PAL.b2);
+  rect(3, 10, 5, 1, PAL.b4);
+  rect(2, 11, 7, 1, PAL.w1);
+  rect(3, 12, 5, 2, PAL.b1);
+  // Clapper stripes
+  px(3, 10, PAL.w1); px(5, 10, PAL.w1); px(7, 10, PAL.w1);
+
+  // Left arm at side
+  rect(23, 16, 2, 8, PAL.pk3);
+  rect(24, 17, 2, 7, PAL.pk4);
+  rect(25, 24, 2, 2, PAL.s2);
+
+  // Pants
+  rect(10, 28, 12, 1, PAL.b3);
+  rect(10, 29, 5, 12, PAL.b2);
+  rect(17, 29, 5, 12, PAL.b2);
+  rect(11, 29, 4, 12, PAL.b1);
+  rect(18, 29, 4, 12, PAL.b1);
+  rect(15, 33, 2, 8, PAL.o);
+
+  // Heels / boots
+  rect(9, 41, 6, 3, PAL.pk4);
+  rect(17, 41, 6, 3, PAL.pk4);
+  rect(9, 43, 7, 1, PAL.o);
+  rect(17, 43, 7, 1, PAL.o);
+}
+
+function drawWeb3Clip(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+
+  // Hair — short, clean
+  rect(11, 0, 10, 2, PAL.h1);
+  rect(10, 1, 12, 3, PAL.h2);
+  rect(10, 3, 12, 1, PAL.h3);
+  rect(9, 3, 2, 3, PAL.h1);
+  rect(21, 3, 2, 2, PAL.h2);
+
+  // Cap / beanie
+  rect(9, 0, 15, 3, PAL.g2);
+  rect(10, 0, 13, 1, PAL.g1);
+  rect(9, 2, 15, 1, PAL.g3);
+
+  // Face
+  rect(11, 4, 10, 8, PAL.s1);
+  rect(11, 11, 10, 1, PAL.s3);
+  rect(11, 4, 1, 8, PAL.s2);
+  rect(20, 4, 1, 8, PAL.s3);
+
+  // Eyes
+  px(13, 6, PAL.e2); px(14, 6, PAL.e1); px(15, 6, PAL.e1);
+  px(17, 6, PAL.e1); px(18, 6, PAL.e1); px(19, 6, PAL.e2);
+  rect(13, 5, 3, 1, PAL.h2);
+  rect(17, 5, 3, 1, PAL.h2);
+  px(16, 8, PAL.s3);
+  rect(14, 10, 4, 1, PAL.m1);
+
+  rect(14, 12, 4, 2, PAL.s2);
+
+  // Green bomber jacket
+  rect(9, 14, 14, 14, PAL.g2);
+  rect(10, 14, 12, 14, PAL.g1);
+  rect(9, 14, 1, 14, PAL.g3);
+  rect(22, 14, 1, 14, PAL.g3);
+  // Zip line
+  rect(15, 14, 2, 14, PAL.g3);
+  // Collar
+  rect(12, 13, 8, 2, PAL.g3);
+  rect(13, 13, 6, 1, PAL.g4);
+  // Pockets
+  rect(11, 22, 3, 2, PAL.g3);
+  rect(18, 22, 3, 2, PAL.g3);
+  // Inner shirt
+  rect(13, 14, 2, 3, PAL.w1);
+  rect(17, 14, 2, 3, PAL.w1);
+
+  // Right arm — action cutting pose with scissors
+  rect(7, 15, 2, 5, PAL.g3);
+  rect(6, 15, 2, 4, PAL.g4);
+  rect(5, 18, 3, 2, PAL.s2);
+  // Scissors — large, dramatic
+  // Handle
+  rect(3, 16, 3, 1, PAL.d2);
+  rect(2, 17, 2, 1, PAL.d2);
+  rect(5, 17, 2, 1, PAL.d2);
+  // Blades
+  rect(1, 14, 2, 3, '#ccccdd');
+  rect(6, 14, 2, 3, '#ccccdd');
+  px(1, 13, '#ddddee'); px(7, 13, '#ddddee'); // blade tips
+  // Blade shine
+  px(1, 15, '#ffffff'); px(6, 15, '#ffffff');
+
+  // Left arm
+  rect(23, 16, 2, 8, PAL.g3);
+  rect(24, 17, 2, 7, PAL.g4);
+  rect(25, 24, 2, 2, PAL.s2);
+
+  // Cargo pants
+  rect(10, 28, 12, 1, PAL.b3);
+  rect(10, 29, 5, 12, '#2a3a2a');
+  rect(17, 29, 5, 12, '#2a3a2a');
+  rect(11, 29, 4, 12, '#344434');
+  rect(18, 29, 4, 12, '#344434');
+  // Cargo pockets
+  rect(11, 33, 3, 3, '#2a3a2a');
+  rect(18, 33, 3, 3, '#2a3a2a');
+  rect(15, 33, 2, 8, PAL.o);
+
+  // Green sneakers
+  rect(9, 41, 6, 3, PAL.g3);
+  rect(17, 41, 6, 3, PAL.g3);
+  rect(9, 43, 7, 1, PAL.g4);
+  rect(17, 43, 7, 1, PAL.g4);
+  px(10, 41, PAL.w1); px(18, 41, PAL.w1);
+}
+
+const drawFns = {
+  compound: drawCompound,
+  replyguy: drawReplyGuy,
+  prospr3: drawProspr3,
+  dreamy: drawDreamy,
+  curator: drawCurator,
+  web3clip: drawWeb3Clip,
+};
+
+function renderSprite(name, scale) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 32 * scale;
+  canvas.height = 48 * scale;
+  canvas.style.imageRendering = 'pixelated';
+  const ctx = canvas.getContext('2d');
+  if (drawFns[name]) drawFns[name](ctx, scale);
+  return canvas.toDataURL();
+}
+
+// ═══ FACE PORTRAIT RENDERERS (head + shoulders only) ═══
+function drawFaceCompound(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  // Hair
+  rect(3,0,10,2,PAL.h1); rect(2,1,12,2,PAL.h2); rect(1,2,14,2,PAL.h1); rect(2,3,12,1,PAL.h3);
+  rect(1,4,2,3,PAL.h1); rect(13,4,2,3,PAL.h2);
+  // Face
+  rect(3,4,10,8,PAL.s1); rect(3,4,10,1,PAL.s2); rect(3,11,10,1,PAL.s3);
+  rect(3,4,1,8,PAL.s2); rect(12,4,1,8,PAL.s3);
+  // Eyes
+  px(5,6,PAL.e2); px(6,6,PAL.e1); px(7,6,PAL.e1);
+  px(9,6,PAL.e1); px(10,6,PAL.e1); px(11,6,PAL.e2);
+  rect(5,5,3,1,PAL.h2); rect(9,5,3,1,PAL.h2);
+  px(8,8,PAL.s3); px(8,9,PAL.s4);
+  rect(6,10,4,1,PAL.m1);
+  // Neck + suit collar
+  rect(6,12,4,2,PAL.s2);
+  rect(1,13,5,3,PAL.b2); rect(10,13,5,3,PAL.b2);
+  rect(5,13,6,1,PAL.w1); rect(7,13,2,3,PAL.r1); // tie
+  rect(3,14,2,2,PAL.b1); rect(11,14,2,2,PAL.b1); // lapels
+}
+
+function drawFaceReplyGuy(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  rect(2,0,12,2,PAL.hb1); rect(1,1,14,2,PAL.hb2); rect(1,2,14,2,PAL.hb1); rect(2,3,12,1,PAL.hb3);
+  rect(11,0,3,1,PAL.hb1); rect(1,3,2,4,PAL.hb2); rect(13,3,2,3,PAL.hb1);
+  rect(3,4,10,8,PAL.s1); rect(3,11,10,1,PAL.s3); rect(3,4,1,8,PAL.s2); rect(12,4,1,8,PAL.s3);
+  // Sunglasses
+  rect(4,5,4,3,PAL.o); rect(9,5,4,3,PAL.o); rect(8,6,1,1,PAL.o);
+  rect(5,6,2,1,PAL.gl); rect(10,6,2,1,PAL.gl);
+  rect(6,10,3,1,PAL.m1); px(9,10,PAL.s3);
+  rect(6,12,4,2,PAL.s2);
+  // Yellow hoodie collar
+  rect(1,13,14,3,PAL.y2); rect(2,13,12,3,PAL.y1);
+  rect(6,13,1,2,PAL.w1); rect(9,13,1,2,PAL.w1); // drawstrings
+}
+
+function drawFaceProspr3(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  rect(2,1,12,2,PAL.h1); rect(1,2,14,2,PAL.h2); rect(2,3,12,1,PAL.h3);
+  rect(0,0,3,2,PAL.h1); rect(12,0,4,2,PAL.h1); rect(4,0,2,1,PAL.h2); rect(9,0,2,1,PAL.h2);
+  rect(1,3,2,4,PAL.h1); rect(13,3,2,3,PAL.h2);
+  // Goggles on forehead
+  rect(3,3,10,2,PAL.d2); rect(4,3,3,2,PAL.gl); rect(9,3,3,2,PAL.gl);
+  rect(3,5,10,7,PAL.s1); rect(3,11,10,1,PAL.s3); rect(3,5,1,7,PAL.s2); rect(12,5,1,7,PAL.s3);
+  px(5,7,PAL.e2); px(6,7,PAL.e1); px(7,7,PAL.e1);
+  px(9,7,PAL.e1); px(10,7,PAL.e1); px(11,7,PAL.e2);
+  rect(5,6,3,1,PAL.h2); rect(9,6,3,1,PAL.h2);
+  rect(5,10,6,1,PAL.m1);
+  rect(6,12,4,2,PAL.s2);
+  rect(1,13,14,3,PAL.p2); rect(2,13,12,3,PAL.p1);
+  rect(5,13,6,2,PAL.w1); rect(7,13,2,1,PAL.w2);
+}
+
+function drawFaceDreamy(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  rect(3,0,10,2,PAL.h1); rect(2,1,12,2,PAL.h2); rect(1,2,14,3,PAL.h1); rect(2,4,12,1,PAL.h3);
+  rect(1,4,2,3,PAL.h2); rect(13,4,2,2,PAL.h1);
+  rect(3,5,10,7,PAL.s1); rect(3,11,10,1,PAL.s3); rect(3,5,1,7,PAL.s2); rect(12,5,1,7,PAL.s3);
+  // Glasses
+  rect(4,7,4,2,PAL.o); rect(9,7,4,2,PAL.o); rect(8,7,1,1,PAL.o);
+  rect(5,7,2,1,PAL.gl); rect(10,7,2,1,PAL.gl);
+  px(5,6,PAL.h2); px(6,6,PAL.h2); px(7,6,PAL.h2);
+  px(9,6,PAL.h2); px(10,6,PAL.h2); px(11,6,PAL.h2);
+  px(8,9,PAL.s3); rect(6,10,4,1,PAL.m1);
+  rect(6,12,4,2,PAL.s2);
+  // Blue turtleneck
+  rect(4,12,8,2,PAL.bl2);
+  rect(1,13,14,3,PAL.bl2); rect(2,13,12,3,PAL.bl1);
+}
+
+function drawFaceCurator(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  rect(2,0,12,2,PAL.hb1); rect(1,1,14,3,PAL.hb2); rect(0,2,4,3,PAL.hb1);
+  rect(2,3,12,1,PAL.hb3); rect(1,4,2,3,PAL.hb1); rect(13,4,2,2,PAL.hb2);
+  rect(3,5,10,7,PAL.s1); rect(3,11,10,1,PAL.s3); rect(3,5,1,7,PAL.s2); rect(12,5,1,7,PAL.s3);
+  px(5,7,PAL.e2); px(6,7,PAL.e1); px(7,7,PAL.e1);
+  px(9,7,PAL.e1); px(10,7,PAL.e1); px(11,7,PAL.e2);
+  px(5,6,PAL.hb2); px(6,6,PAL.hb2); px(7,6,PAL.hb2);
+  px(9,6,PAL.hb2); px(10,6,PAL.hb2); px(11,6,PAL.hb2);
+  px(8,9,PAL.s3); rect(6,10,4,1,PAL.m1);
+  rect(6,12,4,2,PAL.s2);
+  // Pink blazer collar
+  rect(1,13,14,3,PAL.pk2); rect(2,13,12,3,PAL.pk1);
+  rect(3,13,2,2,PAL.pk3); rect(11,13,2,2,PAL.pk3); // lapels
+  rect(5,13,6,2,PAL.w1);
+}
+
+function drawFaceWeb3Clip(ctx, s) {
+  const px = (x, y, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, s, s); }};
+  const rect = (x, y, w, h, c) => { if(c) { ctx.fillStyle = c; ctx.fillRect(x*s, y*s, w*s, h*s); }};
+  // Beanie
+  rect(1,0,14,3,PAL.g2); rect(2,0,12,1,PAL.g1); rect(1,2,14,1,PAL.g3);
+  rect(3,3,10,1,PAL.h2); rect(1,3,2,3,PAL.h1); rect(13,3,2,2,PAL.h2);
+  rect(3,4,10,8,PAL.s1); rect(3,11,10,1,PAL.s3); rect(3,4,1,8,PAL.s2); rect(12,4,1,8,PAL.s3);
+  px(5,6,PAL.e2); px(6,6,PAL.e1); px(7,6,PAL.e1);
+  px(9,6,PAL.e1); px(10,6,PAL.e1); px(11,6,PAL.e2);
+  rect(5,5,3,1,PAL.h2); rect(9,5,3,1,PAL.h2);
+  px(8,8,PAL.s3); rect(6,10,4,1,PAL.m1);
+  rect(6,12,4,2,PAL.s2);
+  // Green bomber collar
+  rect(4,12,8,2,PAL.g3); rect(5,12,6,1,PAL.g4);
+  rect(1,13,14,3,PAL.g2); rect(2,13,12,3,PAL.g1);
+  rect(7,13,2,3,PAL.g3); // zip
+  rect(5,13,2,2,PAL.w1); rect(9,13,2,2,PAL.w1);
+}
+
+const faceFns = {
+  compound: drawFaceCompound,
+  replyguy: drawFaceReplyGuy,
+  prospr3: drawFaceProspr3,
+  dreamy: drawFaceDreamy,
+  curator: drawFaceCurator,
+  web3clip: drawFaceWeb3Clip,
+};
+
+function renderFace(name, scale) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 16 * scale;
+  canvas.height = 16 * scale;
+  canvas.style.imageRendering = 'pixelated';
+  const ctx = canvas.getContext('2d');
+  if (faceFns[name]) faceFns[name](ctx, scale);
+  return canvas.toDataURL();
+}
+
+// ═══ BUILD UI ═══
+const selectorRow = document.getElementById('selectorRow');
+let currentIndex = 0;
+
+agencies.forEach((a, i) => {
+  const faceImg = renderFace(a.sprite, 3);
+  const card = document.createElement('div');
+  card.className = 'sel-card';
+  card.style.setProperty('--sel-accent', a.accent);
+  card.dataset.index = i;
+  card.innerHTML = `
+    <span class="sel-number">${a.number}</span>
+    <div class="sel-face-wrap">
+      <img class="sel-face" src="${faceImg}" alt="${a.name}" />
+    </div>
+    <div class="sel-info">
+      <div class="sel-name">${a.name}</div>
+      <div class="sel-class" style="color:${a.accent}">${a.class}</div>
+    </div>
+  `;
+  card.addEventListener('click', () => selectAgency(i));
+  selectorRow.appendChild(card);
+});
+
+function selectAgency(index) {
+  currentIndex = index;
+  const a = agencies[index];
+  const accent = a.accent;
+
+  document.querySelectorAll('.sel-card').forEach((c, i) => c.classList.toggle('active', i === index));
+
+  document.getElementById('mainSprite').src = renderSprite(a.sprite, 6);
+  document.getElementById('heroName').textContent = a.name;
+  document.getElementById('heroName').style.color = accent;
+  document.getElementById('heroName').style.textShadow = `0 0 30px ${accent}60, 0 0 60px ${accent}20`;
+  document.getElementById('heroClass').textContent = a.class;
+  document.getElementById('heroClass').style.color = accent + '99';
+  document.getElementById('heroNumber').textContent = a.number;
+
+  const ring = document.getElementById('discRing');
+  ring.style.borderColor = accent;
+  ring.style.boxShadow = `0 0 20px ${accent}40, 0 0 40px ${accent}15`;
+
+  document.getElementById('glowTop').style.background = accent;
+  document.getElementById('glowBottom').style.background = accent;
+
+  document.getElementById('brandBlock').innerHTML = `
+    <div class="agency-logo-area">
+      <span class="agency-logo-text" style="color:${accent};text-shadow:0 0 20px ${accent}40">${a.name}</span>
+    </div>
+    <div class="agency-class-badge" style="color:${accent};border-color:${accent}40">${a.class}</div>
+    <div class="agency-tagline">${a.tagline}</div>
+    <div class="agency-desc">${a.description}</div>
+  `;
+
+  const statsHtml = a.stats.map(s => `
+    <div class="stat-cell"><span class="stat-value" style="color:${accent}">${s.value}</span><span class="stat-name">${s.name}</span></div>
+  `).join('');
+  document.getElementById('statsBlock').innerHTML = `<div class="section-label">// KEY METRICS</div><div class="stat-trio">${statsHtml}</div>`;
+
+  const abHtml = a.abilities.map(ab => `
+    <div class="ability-card">
+      <div class="ability-icon-wrap">${ab.icon}</div>
+      <div><div class="ability-name">${ab.name}</div><div class="ability-desc">${ab.desc}</div></div>
+    </div>
+  `).join('');
+  document.getElementById('abilitiesBlock').innerHTML = `<div class="section-label">// ABILITIES</div>${abHtml}`;
+
+  const clHtml = a.clients.map(c => `<div class="client-pill">${c}</div>`).join('');
+  document.getElementById('clientsBlock').innerHTML = `<div class="section-label">// CLIENTS</div><div class="client-grid">${clHtml}</div>`;
+
+  let style = document.getElementById('dynamic-accent');
+  if (!style) { style = document.createElement('style'); style.id = 'dynamic-accent'; document.head.appendChild(style); }
+  style.textContent = `.stat-cell::after{background:${accent}!important}.ability-card:hover{border-color:${accent}30!important}.client-pill:hover{border-color:${accent}30!important}`;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); selectAgency((currentIndex + 1) % agencies.length); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); selectAgency((currentIndex - 1 + agencies.length) % agencies.length); }
+  else if (e.key >= '1' && e.key <= '6') selectAgency(parseInt(e.key) - 1);
+});
+
+selectAgency(0);
+</script>
+</body>
+</html>
